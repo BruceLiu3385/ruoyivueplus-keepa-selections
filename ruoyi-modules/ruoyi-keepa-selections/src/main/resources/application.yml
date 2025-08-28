@@ -1,0 +1,50 @@
+# Keepa选品工具配置
+keepa:
+  api:
+    # API密钥，可通过环境变量或配置文件设置
+    key: ${KEEPA_API_KEY:cqqkcu49mds3vp4u4v8om3qtmmfl4l63038r1httn5tun9tu155u39k4kpkbsj2k}
+    # 每分钟Token恢复数量
+    tokens-per-minute: 250
+    # 单次请求最大ASIN数量
+    max-batch-size: 100
+    # 请求间隔毫秒数
+    request-delay-ms: 1000
+    # 请求超时时间（毫秒）
+    timeout-ms: 60000
+    # 最大重试次数
+    max-retry-count: 3
+    # 是否启用API限制检查
+    enable-rate-limit: true
+
+# 异步任务配置
+spring:
+  task:
+    execution:
+      pool:
+        # 核心线程数
+        core-size: 5
+        # 最大线程数
+        max-size: 20
+        # 队列容量
+        queue-capacity: 100
+        # 线程名前缀
+        thread-name-prefix: "keepa-async-"
+        # 空闲线程保活时间
+        keep-alive: 60s
+      shutdown:
+        # 是否等待任务完成
+        await-termination: true
+        # 最大等待时间
+        await-termination-period: 20s
+
+# MyBatis配置
+mybatis-plus:
+  # 扫描mapper xml文件
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 开启二级缓存
+    cache-enabled: true
+    # 打印SQL日志（开发环境使用）
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dromara.keepa.mapper.KsProductAsinMapper">
+
+    <resultMap type="org.dromara.keepa.domain.KsProductAsin" id="KsProductAsinResult">
+        <result property="id" column="id"/>
+        <result property="batchId" column="batch_id"/>
+        <result property="asin" column="asin"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="domainCode" column="domain_code"/>
+        <result property="salesRank" column="sales_rank"/>
+        <result property="detailStatus" column="detail_status"/>
+        <result property="analysisStatus" column="analysis_status"/>
+        <result property="errorMessage" column="error_message"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectVo">
+        select id, batch_id, asin, category_id, domain_code, sales_rank, 
+               detail_status, analysis_status, error_message, create_time, update_time
+        from ks_product_asin
+    </sql>
+
+    <!-- 根据批次ID获取待抓取详情的ASIN列表 -->
+    <select id="selectPendingDetailAsinsByBatchId" resultMap="KsProductAsinResult">
+        <include refid="selectVo"/>
+        where batch_id = #{batchId}
+          and detail_status = '0'
+        order by sales_rank asc, id asc
+        <if test="limit != null and limit > 0">
+            limit #{limit}
+        </if>
+    </select>
+
+    <!-- 根据批次ID获取待分析的ASIN列表 -->
+    <select id="selectPendingAnalysisAsinsByBatchId" resultMap="KsProductAsinResult">
+        <include refid="selectVo"/>
+        where batch_id = #{batchId}
+          and detail_status = '2'
+          and analysis_status = '0'
+        order by sales_rank asc, id asc
+        <if test="limit != null and limit > 0">
+            limit #{limit}
+        </if>
+    </select>
+
+    <!-- 更新详情抓取状态 -->
+    <update id="updateDetailStatus">
+        update ks_product_asin
+        set detail_status = #{status},
+            error_message = #{errorMessage},
+            update_time = now()
+        where id = #{asinId}
+    </update>
+
+    <!-- 更新分析状态 -->
+    <update id="updateAnalysisStatus">
+        update ks_product_asin
+        set analysis_status = #{status},
+            update_time = now()
+        where id = #{asinId}
+    </update>
+
+    <!-- 统计批次ASIN数量 -->
+    <select id="countByBatchId" resultType="int">
+        select count(1) from ks_product_asin where batch_id = #{batchId}
+    </select>
+
+    <!-- 统计已完成详情抓取的ASIN数量 -->
+    <select id="countCompletedDetailByBatchId" resultType="int">
+        select count(1) from ks_product_asin 
+        where batch_id = #{batchId} and detail_status = '2'
+    </select>
+
+    <!-- 统计已分析的ASIN数量 -->
+    <select id="countAnalyzedByBatchId" resultType="int">
+        select count(1) from ks_product_asin 
+        where batch_id = #{batchId} and analysis_status = '1'
+    </select>
+
+</mapper>
