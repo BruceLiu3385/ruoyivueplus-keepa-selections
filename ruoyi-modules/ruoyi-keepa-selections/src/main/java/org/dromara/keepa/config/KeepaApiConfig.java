@@ -3,8 +3,7 @@ package org.dromara.keepa.config;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * Keepa API配置
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Data
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "keepa.api")
 public class KeepaApiConfig {
 
@@ -68,11 +67,5 @@ public class KeepaApiConfig {
      */
     private boolean monitoringEnabled = true;
 
-    /**
-     * 创建简单的配置Bean
-     */
-    @Bean
-    public KeepaApiConfig keepaApiConfig() {
-        return this;
-    }
+
 }
