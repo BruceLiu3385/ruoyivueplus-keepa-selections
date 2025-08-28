@@ -1,6 +1,9 @@
 package org.dromara.keepa.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
@@ -30,6 +33,7 @@ import java.util.Arrays;
  * @author ruoyi
  * @date 2025-01-02
  */
+@Tag(name = "选品批次管理", description = "Keepa亚马逊选品批次的增删改查操作")
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -41,6 +45,7 @@ public class KsSelectionBatchController extends BaseController {
     /**
      * 查询选品批次列表
      */
+    @Operation(summary = "查询选品批次列表", description = "分页查询选品批次信息")
     @SaCheckPermission("keepa:batch:list")
     @GetMapping("/list")
     public TableDataInfo<KsSelectionBatchVo> list(KsSelectionBatchBo bo, PageQuery pageQuery) {

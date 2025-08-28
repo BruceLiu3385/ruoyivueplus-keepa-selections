@@ -2,6 +2,8 @@ package org.dromara.keepa.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.web.core.BaseController;
@@ -20,6 +22,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2025-01-02
  */
+@Tag(name = "亚马逊域名管理", description = "亚马逊站点域名的查询和管理")
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -31,6 +34,7 @@ public class KsAmazonDomainController extends BaseController {
     /**
      * 获取所有可用的亚马逊站点
      */
+    @Operation(summary = "获取可用站点列表", description = "获取所有状态为启用的亚马逊站点")
     @SaCheckPermission("keepa:domain:list")
     @GetMapping("/list")
     public R<List<KsAmazonDomain>> list() {
@@ -44,6 +48,7 @@ public class KsAmazonDomainController extends BaseController {
     /**
      * 获取所有亚马逊站点（包括停用的）
      */
+    @Operation(summary = "获取所有站点列表", description = "获取所有亚马逊站点，包括启用和停用的")
     @SaCheckPermission("keepa:domain:all")
     @GetMapping("/all")
     public R<List<KsAmazonDomain>> all() {

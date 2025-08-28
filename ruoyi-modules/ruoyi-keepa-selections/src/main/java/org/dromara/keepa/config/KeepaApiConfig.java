@@ -28,24 +28,29 @@ public class KeepaApiConfig {
     private int tokensPerMinute = 250;
 
     /**
-     * 请求超时时间(秒)
+     * 单次请求最大ASIN数量
      */
-    private int timeoutSeconds = 30;
+    private int maxBatchSize = 100;
+
+    /**
+     * 请求间隔毫秒数
+     */
+    private int requestDelayMs = 1000;
+
+    /**
+     * 请求超时时间（毫秒）
+     */
+    private int timeoutMs = 60000;
 
     /**
      * 最大重试次数
      */
-    private int maxRetries = 3;
+    private int maxRetryCount = 3;
 
     /**
-     * 批处理大小
+     * 是否启用API限制检查
      */
-    private int batchSize = 100;
-
-    /**
-     * 最大等待时间(分钟)
-     */
-    private int maxWaitMinutes = 10;
+    private boolean enableRateLimit = true;
 
     /**
      * API基础URL

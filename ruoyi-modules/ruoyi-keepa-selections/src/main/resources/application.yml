@@ -1,9 +1,9 @@
 # Keepa选品工具配置
 keepa:
   api:
-    # API密钥，可通过环境变量或配置文件设置
-    key: ${KEEPA_API_KEY}
-    # 每分钟Token恢复数量
+    # API密钥 - 您提供的实际密钥
+    key: cqqkcu49mds3vp4u4v8om3qtmmfl4l63038r1httn5tun9tu155u39k4kpkbsj2k
+    # 每分钟Token恢复数量  
     tokens-per-minute: 250
     # 单次请求最大ASIN数量
     max-batch-size: 100
@@ -15,6 +15,14 @@ keepa:
     max-retry-count: 3
     # 是否启用API限制检查
     enable-rate-limit: true
+    # API基础URL
+    base-url: https://api.keepa.com
+    # 是否启用缓存
+    cache-enabled: true
+    # 缓存过期时间(小时)
+    cache-expire-hours: 24
+    # 是否启用API监控
+    monitoring-enabled: true
 
 # 异步任务配置
 spring:
