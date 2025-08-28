@@ -52,7 +52,9 @@ public class KsSelectionBatchServiceImpl implements IKsSelectionBatchService {
         if (vo != null) {
             // 设置域名名称
             if (vo.getAmazonDomain() != null) {
-                var domain = amazonDomainMapper.selectOne("domain_code", vo.getAmazonDomain());
+                LambdaQueryWrapper<org.dromara.keepa.domain.KsAmazonDomain> domainWrapper = new LambdaQueryWrapper<>();
+                domainWrapper.eq(org.dromara.keepa.domain.KsAmazonDomain::getDomainCode, vo.getAmazonDomain());
+                var domain = amazonDomainMapper.selectOne(domainWrapper);
                 if (domain != null) {
                     vo.setAmazonDomainName(domain.getDomainName());
                 }
@@ -72,7 +74,9 @@ public class KsSelectionBatchServiceImpl implements IKsSelectionBatchService {
         // 设置扩展信息
         for (KsSelectionBatchVo vo : result.getRecords()) {
             if (vo.getAmazonDomain() != null) {
-                var domain = amazonDomainMapper.selectOne("domain_code", vo.getAmazonDomain());
+                LambdaQueryWrapper<org.dromara.keepa.domain.KsAmazonDomain> domainWrapper = new LambdaQueryWrapper<>();
+                domainWrapper.eq(org.dromara.keepa.domain.KsAmazonDomain::getDomainCode, vo.getAmazonDomain());
+                var domain = amazonDomainMapper.selectOne(domainWrapper);
                 if (domain != null) {
                     vo.setAmazonDomainName(domain.getDomainName());
                 }
@@ -91,7 +95,9 @@ public class KsSelectionBatchServiceImpl implements IKsSelectionBatchService {
         // 设置扩展信息
         for (KsSelectionBatchVo vo : list) {
             if (vo.getAmazonDomain() != null) {
-                var domain = amazonDomainMapper.selectOne("domain_code", vo.getAmazonDomain());
+                LambdaQueryWrapper<org.dromara.keepa.domain.KsAmazonDomain> domainWrapper = new LambdaQueryWrapper<>();
+                domainWrapper.eq(org.dromara.keepa.domain.KsAmazonDomain::getDomainCode, vo.getAmazonDomain());
+                var domain = amazonDomainMapper.selectOne(domainWrapper);
                 if (domain != null) {
                     vo.setAmazonDomainName(domain.getDomainName());
                 }
@@ -165,7 +171,9 @@ public class KsSelectionBatchServiceImpl implements IKsSelectionBatchService {
         }
         
         // 验证域名是否存在
-        var domain = amazonDomainMapper.selectOne("domain_code", amazonDomain);
+        LambdaQueryWrapper<org.dromara.keepa.domain.KsAmazonDomain> domainWrapper = new LambdaQueryWrapper<>();
+        domainWrapper.eq(org.dromara.keepa.domain.KsAmazonDomain::getDomainCode, amazonDomain);
+        var domain = amazonDomainMapper.selectOne(domainWrapper);
         if (domain == null) {
             throw new IllegalArgumentException("不支持的亚马逊站点");
         }

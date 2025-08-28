@@ -47,6 +47,12 @@
             <artifactId>ruoyi-common-job</artifactId>
         </dependency>
 
+        <!-- 日志模块 -->
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-log</artifactId>
+        </dependency>
+
         <!-- 权限认证 -->
         <dependency>
             <groupId>org.dromara</groupId>
@@ -77,12 +83,14 @@
             <artifactId>ruoyi-common-ratelimiter</artifactId>
         </dependency>
 
-        <!-- Keepa API Java SDK -->
+        <!-- Keepa API Java SDK - 暂时移除，等后续集成时再添加 -->
+        <!--
         <dependency>
             <groupId>com.keepa.api</groupId>
             <artifactId>backend</artifactId>
-            <version>LATEST</version>
+            <version>3.0</version>
         </dependency>
+        -->
 
         <!-- HTTP客户端用于API调用 -->
         <dependency>
@@ -101,16 +109,7 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- 异步处理 -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
         
         <!-- 测试依赖 -->
         <dependency>

@@ -1,6 +1,7 @@
 package org.dromara.keepa.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.web.core.BaseController;
@@ -33,7 +34,10 @@ public class KsAmazonDomainController extends BaseController {
     @SaCheckPermission("keepa:domain:list")
     @GetMapping("/list")
     public R<List<KsAmazonDomain>> list() {
-        List<KsAmazonDomain> list = amazonDomainMapper.selectList("status", "0", "sort_order");
+        LambdaQueryWrapper<KsAmazonDomain> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(KsAmazonDomain::getStatus, "0")
+               .orderByAsc(KsAmazonDomain::getSortOrder);
+        List<KsAmazonDomain> list = amazonDomainMapper.selectList(wrapper);
         return R.ok(list);
     }
 
@@ -43,7 +47,9 @@ public class KsAmazonDomainController extends BaseController {
     @SaCheckPermission("keepa:domain:all")
     @GetMapping("/all")
     public R<List<KsAmazonDomain>> all() {
-        List<KsAmazonDomain> list = amazonDomainMapper.selectList(null, "sort_order");
+        LambdaQueryWrapper<KsAmazonDomain> wrapper = new LambdaQueryWrapper<>();
+        wrapper.orderByAsc(KsAmazonDomain::getSortOrder);
+        List<KsAmazonDomain> list = amazonDomainMapper.selectList(wrapper);
         return R.ok(list);
     }
 }

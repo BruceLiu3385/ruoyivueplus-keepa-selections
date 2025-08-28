@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dromara.common.core.domain.BaseEntity;
-import org.dromara.common.excel.annotation.ExcelIgnoreUnannotated;
-import org.dromara.common.excel.annotation.ExcelProperty;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
+import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
+import cn.idev.excel.annotation.ExcelProperty;
 
 import java.io.Serial;
 

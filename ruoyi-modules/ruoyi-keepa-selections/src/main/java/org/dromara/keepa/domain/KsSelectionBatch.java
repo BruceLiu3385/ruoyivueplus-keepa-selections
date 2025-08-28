@@ -7,9 +7,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dromara.common.core.domain.BaseEntity;
-import org.dromara.common.excel.annotation.ExcelIgnoreUnannotated;
-import org.dromara.common.excel.annotation.ExcelProperty;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
+import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
+import cn.idev.excel.annotation.ExcelProperty;
+import org.dromara.common.excel.annotation.ExcelEnumFormat;
+import org.dromara.common.excel.convert.ExcelEnumConvert;
+import org.dromara.keepa.domain.enums.BatchStatusEnum;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
@@ -60,7 +63,8 @@ public class KsSelectionBatch extends BaseEntity {
     /**
      * 状态(0初始,1配置中,2抓取ASIN中,3抓取详情中,4分析中,5完成,9失败)
      */
-    @ExcelProperty(value = "状态", converter = BatchStatusConverter.class)
+    @ExcelProperty(value = "状态", converter = ExcelEnumConvert.class)
+    @ExcelEnumFormat(enumClass = BatchStatusEnum.class, textField = "info")
     @TableField("status")
     private String status;
 
@@ -120,14 +124,14 @@ public class KsSelectionBatch extends BaseEntity {
     @TableField("error_message")
     private String errorMessage;
 
-    // 批次状态常量
+    // 批次状态常量（保留兼容性）
     public static class BatchStatus {
-        public static final String INITIAL = "0";        // 初始
-        public static final String CONFIGURING = "1";    // 配置中
-        public static final String FETCHING_ASIN = "2";  // 抓取ASIN中
-        public static final String FETCHING_DETAIL = "3"; // 抓取详情中
-        public static final String ANALYZING = "4";      // 分析中
-        public static final String COMPLETED = "5";      // 完成
-        public static final String FAILED = "9";         // 失败
+        public static final String INITIAL = BatchStatusEnum.INITIAL.getCode();        // 初始
+        public static final String CONFIGURING = BatchStatusEnum.CONFIGURING.getCode();    // 配置中
+        public static final String FETCHING_ASIN = BatchStatusEnum.FETCHING_ASIN.getCode();  // 抓取ASIN中
+        public static final String FETCHING_DETAIL = BatchStatusEnum.FETCHING_DETAIL.getCode(); // 抓取详情中
+        public static final String ANALYZING = BatchStatusEnum.ANALYZING.getCode();      // 分析中
+        public static final String COMPLETED = BatchStatusEnum.COMPLETED.getCode();      // 完成
+        public static final String FAILED = BatchStatusEnum.FAILED.getCode();         // 失败
     }
 }

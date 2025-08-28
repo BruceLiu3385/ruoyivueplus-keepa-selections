@@ -1,6 +1,5 @@
 package org.dromara.keepa.config;
 
-import com.keepa.api.backend.KeepaAPI;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
  * @author ruoyi
  * @date 2025-01-02
  */
-@Data
 @Slf4j
+@Data
 @Configuration
 @ConfigurationProperties(prefix = "keepa.api")
 public class KeepaApiConfig {
@@ -25,46 +24,55 @@ public class KeepaApiConfig {
     private String key;
 
     /**
-     * 每分钟Token恢复数量
+     * 每分钟Token数量
      */
-    private Integer tokensPerMinute = 250;
+    private int tokensPerMinute = 250;
 
     /**
-     * 单次请求最大ASIN数量
+     * 请求超时时间(秒)
      */
-    private Integer maxBatchSize = 100;
-
-    /**
-     * 请求间隔毫秒数
-     */
-    private Long requestDelayMs = 1000L;
-
-    /**
-     * 请求超时时间（毫秒）
-     */
-    private Long timeoutMs = 60000L;
+    private int timeoutSeconds = 30;
 
     /**
      * 最大重试次数
      */
-    private Integer maxRetryCount = 3;
+    private int maxRetries = 3;
 
     /**
-     * 是否启用API限制检查
+     * 批处理大小
      */
-    private Boolean enableRateLimit = true;
+    private int batchSize = 100;
 
     /**
-     * 创建KeepaAPI实例
+     * 最大等待时间(分钟)
+     */
+    private int maxWaitMinutes = 10;
+
+    /**
+     * API基础URL
+     */
+    private String baseUrl = "https://api.keepa.com";
+
+    /**
+     * 是否启用缓存
+     */
+    private boolean cacheEnabled = true;
+
+    /**
+     * 缓存过期时间(小时)
+     */
+    private int cacheExpireHours = 24;
+
+    /**
+     * 是否启用API监控
+     */
+    private boolean monitoringEnabled = true;
+
+    /**
+     * 创建简单的配置Bean
      */
     @Bean
-    public KeepaAPI keepaAPI() {
-        if (key == null || key.trim().isEmpty()) {
-            log.error("Keepa API密钥未配置，请设置keepa.api.key属性");
-            throw new IllegalArgumentException("Keepa API密钥未配置");
-        }
-        
-        log.info("初始化Keepa API，密钥前缀: {}...", key.substring(0, Math.min(10, key.length())));
-        return new KeepaAPI(key);
+    public KeepaApiConfig keepaApiConfig() {
+        return this;
     }
 }

@@ -156,23 +156,22 @@ public class KsSelectionBatchVo implements Serializable {
         if (status == null) {
             return "";
         }
-        switch (status) {
-            case KsSelectionBatch.BatchStatus.INITIAL:
-                return "初始";
-            case KsSelectionBatch.BatchStatus.CONFIGURING:
-                return "配置中";
-            case KsSelectionBatch.BatchStatus.FETCHING_ASIN:
-                return "抓取ASIN中";
-            case KsSelectionBatch.BatchStatus.FETCHING_DETAIL:
-                return "抓取详情中";
-            case KsSelectionBatch.BatchStatus.ANALYZING:
-                return "分析中";
-            case KsSelectionBatch.BatchStatus.COMPLETED:
-                return "完成";
-            case KsSelectionBatch.BatchStatus.FAILED:
-                return "失败";
-            default:
-                return status;
+        if (KsSelectionBatch.BatchStatus.INITIAL.equals(status)) {
+            return "初始";
+        } else if (KsSelectionBatch.BatchStatus.CONFIGURING.equals(status)) {
+            return "配置中";
+        } else if (KsSelectionBatch.BatchStatus.FETCHING_ASIN.equals(status)) {
+            return "抓取ASIN中";
+        } else if (KsSelectionBatch.BatchStatus.FETCHING_DETAIL.equals(status)) {
+            return "抓取详情中";
+        } else if (KsSelectionBatch.BatchStatus.ANALYZING.equals(status)) {
+            return "分析中";
+        } else if (KsSelectionBatch.BatchStatus.COMPLETED.equals(status)) {
+            return "完成";
+        } else if (KsSelectionBatch.BatchStatus.FAILED.equals(status)) {
+            return "失败";
+        } else {
+            return status;
         }
     }
 
@@ -184,22 +183,21 @@ public class KsSelectionBatchVo implements Serializable {
             return 0;
         }
         
-        switch (status) {
-            case KsSelectionBatch.BatchStatus.INITIAL:
-            case KsSelectionBatch.BatchStatus.CONFIGURING:
-                return 0;
-            case KsSelectionBatch.BatchStatus.FETCHING_ASIN:
-                return Math.min(20, currentAsinCount * 20 / maxAsinCount);
-            case KsSelectionBatch.BatchStatus.FETCHING_DETAIL:
-                return 20 + Math.min(60, currentDetailCount * 60 / maxAsinCount);
-            case KsSelectionBatch.BatchStatus.ANALYZING:
-                return 80 + Math.min(15, currentDetailCount * 15 / maxAsinCount);
-            case KsSelectionBatch.BatchStatus.COMPLETED:
-                return 100;
-            case KsSelectionBatch.BatchStatus.FAILED:
-                return progressPercentage != null ? progressPercentage : 0;
-            default:
-                return 0;
+        if (KsSelectionBatch.BatchStatus.INITIAL.equals(status) || 
+            KsSelectionBatch.BatchStatus.CONFIGURING.equals(status)) {
+            return 0;
+        } else if (KsSelectionBatch.BatchStatus.FETCHING_ASIN.equals(status)) {
+            return Math.min(20, currentAsinCount * 20 / maxAsinCount);
+        } else if (KsSelectionBatch.BatchStatus.FETCHING_DETAIL.equals(status)) {
+            return 20 + Math.min(60, currentDetailCount * 60 / maxAsinCount);
+        } else if (KsSelectionBatch.BatchStatus.ANALYZING.equals(status)) {
+            return 80 + Math.min(15, currentDetailCount * 15 / maxAsinCount);
+        } else if (KsSelectionBatch.BatchStatus.COMPLETED.equals(status)) {
+            return 100;
+        } else if (KsSelectionBatch.BatchStatus.FAILED.equals(status)) {
+            return progressPercentage != null ? progressPercentage : 0;
+        } else {
+            return 0;
         }
     }
 }

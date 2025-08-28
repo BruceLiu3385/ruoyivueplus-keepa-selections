@@ -1,7 +1,5 @@
 package org.dromara.keepa.service;
 
-import com.keepa.api.backend.structs.Category;
-import com.keepa.api.backend.structs.Product;
 import org.dromara.keepa.domain.KsAmazonDomain;
 
 import java.util.List;
@@ -16,65 +14,52 @@ import java.util.Map;
 public interface IKeepaApiService {
 
     /**
-     * 获取类目信息
+     * 获取指定域名的类目信息
      *
      * @param domainCode 域名编码
-     * @param categoryIds 类目ID列表
-     * @return 类目信息Map
+     * @return 类目ID到名称的映射
      */
-    Map<String, Category> getCategories(Integer domainCode, List<String> categoryIds);
+    Map<Long, String> getCategories(Integer domainCode);
 
     /**
-     * 搜索类目
-     *
-     * @param domainCode 域名编码
-     * @param keyword 关键词
-     * @return 类目信息Map
-     */
-    Map<String, Category> searchCategories(Integer domainCode, String keyword);
-
-    /**
-     * 获取类目最佳销售商品ASIN列表
+     * 搜索指定类目的商品
      *
      * @param domainCode 域名编码
      * @param categoryId 类目ID
-     * @param maxCount 最大数量
      * @return ASIN列表
      */
-    List<String> getCategoryBestSellers(Integer domainCode, String categoryId, Integer maxCount);
+    List<String> searchProductsByCategory(Integer domainCode, String categoryId);
 
     /**
-     * 批量查询商品信息
+     * 获取指定类目的畅销商品
      *
      * @param domainCode 域名编码
-     * @param asinList ASIN列表
-     * @return 商品信息列表
+     * @param categoryId 类目ID
+     * @param limit      返回数量限制
+     * @return ASIN列表
      */
-    List<Product> queryProducts(Integer domainCode, List<String> asinList);
+    List<String> getBestSellers(Integer domainCode, String categoryId, Integer limit);
 
     /**
-     * 查询单个商品信息（包含历史数据）
+     * 获取商品详情信息
      *
-     * @param domainCode 域名编码
-     * @param asin ASIN
-     * @param includeHistory 是否包含历史数据
-     * @param includeOffers 是否包含offer信息
-     * @return 商品信息
+     * @param asins ASIN列表
+     * @return 商品详情数据
      */
-    Product queryProductDetail(Integer domainCode, String asin, boolean includeHistory, boolean includeOffers);
+    Map<String, Object> getProductDetails(List<String> asins);
 
     /**
-     * 检查API Token余量
+     * 检查剩余Token数量
      *
-     * @return 剩余Token数量，-1表示无法获取
+     * @return 剩余Token数量
      */
     Integer checkTokensRemaining();
 
     /**
-     * 等待Token恢复
+     * 等待足够的Token
      *
      * @param requiredTokens 需要的Token数量
-     * @return 是否成功等待
+     * @return 是否成功获取到足够的Token
      */
     boolean waitForTokens(Integer requiredTokens);
 
@@ -92,11 +77,4 @@ public interface IKeepaApiService {
      * @return 是否有效
      */
     boolean validateApiKey();
-
-    /**
-     * 获取API使用统计
-     *
-     * @return 使用统计信息
-     */
-    Map<String, Object> getApiUsageStats();
 }
